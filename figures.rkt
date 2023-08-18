@@ -1,0 +1,118 @@
+#lang racket
+(require 2htdp/image)
+(require 2htdp/universe)
+(provide (all-defined-out))
+
+(define figure-class%
+  (class object%
+    (init-field [object 'nothing])
+    (init-field [image (bitmap "./Figures/non-existant.png")]) ; This file actually doesn't exist, so draw-bitmap draws nothing
+    (init-field [exists #t])   ;if the piece is still on the board or not
+    (init-field [pos (cons 1 1)])
+    (init-field [color #f])
+    (define/public (move a b)
+      (set-field! pos this (cons (+ (car pos) a) (+ (cdr pos) b))))
+    (super-new)))
+
+; kills a particular piece in theory
+(define (kill piece)
+  (set-field! exists piece #f)) 
+
+
+(define no-figure (new figure-class%))
+;--------------------------------------------------------------------------------------------------------------------------
+(define b-rook1 (new figure-class% [object 'rook] [color 'black] [image  (bitmap "./Figures/rook_black.png") ]))
+(define b-knight1 (new figure-class% [object 'knight] [color 'black] [image  (bitmap "./Figures/knight_black.png") ]))
+(define b-bishop1 (new figure-class% [object 'bishop] [color 'black] [image  (bitmap "./Figures/bishop_black.png") ]))
+(define b-queen (new figure-class% [object 'queen] [color 'black] [image  (bitmap "./Figures/queen_black.png") ]))
+(define b-king (new figure-class% [object 'king] [color 'black] [image  (bitmap "./Figures/king_black.png") ]))
+(define b-bishop2 (new figure-class% [object 'bishop] [color 'black] [image  (bitmap "./Figures/bishop_black.png") ]))
+(define b-knight2 (new figure-class% [object 'knight] [color 'black] [image  (bitmap "./Figures/knight_black.png") ]))
+(define b-rook2 (new figure-class% [object 'rook] [color 'black] [image  (bitmap "./Figures/rook_black.png") ]))
+
+(define b-pawn1 (new figure-class% [object 'pawn] [color 'black] [image  (bitmap "./Figures/pawn_black.png") ]))
+(define b-pawn2 (new figure-class% [object 'pawn] [color 'black] [image  (bitmap "./Figures/pawn_black.png") ]))
+(define b-pawn3 (new figure-class% [object 'pawn] [color 'black] [image  (bitmap "./Figures/pawn_black.png") ]))
+(define b-pawn4 (new figure-class% [object 'pawn] [color 'black] [image  (bitmap "./Figures/pawn_black.png") ]))
+(define b-pawn5 (new figure-class% [object 'pawn] [color 'black] [image  (bitmap "./Figures/pawn_black.png") ]))
+(define b-pawn6 (new figure-class% [object 'pawn] [color 'black] [image  (bitmap "./Figures/pawn_black.png") ]))
+(define b-pawn7 (new figure-class% [object 'pawn] [color 'black] [image  (bitmap "./Figures/pawn_black.png") ]))
+(define b-pawn8 (new figure-class% [object 'pawn] [color 'black] [image  (bitmap "./Figures/pawn_black.png") ]))
+
+;--------------------------------------------------------------------------------------------------------------------------
+(define w-rook1 (new figure-class% [object 'rook] [color 'white] [image  (bitmap "./Figures/rook_white.png") ]))
+(define w-knight1 (new figure-class% [object 'knight] [color 'white] [image  (bitmap "./Figures/knight_white.png") ]))
+(define w-bishop1 (new figure-class% [object 'bishop] [color 'white] [image  (bitmap "./Figures/bishop_white.png") ]))
+(define w-queen (new figure-class% [object 'queen] [color 'white] [image  (bitmap "./Figures/queen_white.png") ]))
+(define w-king (new figure-class% [object 'king] [color 'white] [image (bitmap "./Figures/king_white.png") ]))
+(define w-bishop2 (new figure-class% [object 'bishop] [color 'white] [image  (bitmap "./Figures/bishop_white.png") ]))
+(define w-knight2 (new figure-class% [object 'knight] [color 'white] [image  (bitmap "./Figures/knight_white.png") ]))
+(define w-rook2 (new figure-class% [object 'rook] [color 'white] [image  (bitmap "./Figures/rook_white.png") ]))
+
+(define w-pawn1 (new figure-class% [object 'pawn] [color 'white] [image  (bitmap "./Figures/pawn_white.png") ]))
+(define w-pawn2 (new figure-class% [object 'pawn] [color 'white] [image  (bitmap "./Figures/pawn_white.png") ]))
+(define w-pawn3 (new figure-class% [object 'pawn] [color 'white] [image  (bitmap "./Figures/pawn_white.png") ]))
+(define w-pawn4 (new figure-class% [object 'pawn] [color 'white] [image  (bitmap "./Figures/pawn_white.png") ]))
+(define w-pawn5 (new figure-class% [object 'pawn] [color 'white] [image  (bitmap "./Figures/pawn_white.png") ]))
+(define w-pawn6 (new figure-class% [object 'pawn] [color 'white] [image  (bitmap "./Figures/pawn_white.png") ]))
+(define w-pawn7 (new figure-class% [object 'pawn] [color 'white] [image  (bitmap "./Figures/pawn_white.png") ]))
+(define w-pawn8 (new figure-class% [object 'pawn] [color 'white] [image  (bitmap "./Figures/pawn_white.png") ]))
+
+
+(define white (bitmap "./Boards/white.png"))
+(define black (bitmap "./Boards/black.png"))
+(define possible_move (bitmap "./Boards/possible_move 1.png"))
+(define danger (bitmap "./Boards/danger.png"))
+(define selected (bitmap "./Boards/selected.png"))
+(define check-img (bitmap "./Boards/check.png"))
+(define check-text (bitmap "./Boards/check-text.png"))
+(define checkmate-img (bitmap "./Boards/check-img.png"))
+(define pause (bitmap "./Boards/pause.png"))
+(define game-paused (bitmap "./Boards/game-paused.png"))
+(define paused-text (bitmap "./Boards/paused-text.png"))
+(define exit-img (bitmap "./Boards/exit.png"))
+(define white-wins (bitmap "./Boards/white wins.png"))
+(define black-wins (bitmap "./Boards/black wins.png"))
+(define stalemate-text (bitmap "./Boards/stalemate.png"))
+(define stalemate-img (bitmap "./Boards/stalemate img.png"))
+(define clock-picture (bitmap "./Boards/clock.jpg"))
+(define 1st-frame-img (bitmap "./Boards/image 4.jpg"))
+
+(define (init-figures)
+  (send b-rook1 move 0 0)
+  (send b-knight1 move 1 0)
+  (send b-bishop1 move 2 0)
+  (send b-queen move 3 0)
+  (send b-king move 4 0)
+  (send b-bishop2 move 5 0)
+  (send b-knight2 move 6 0)
+  (send b-rook2 move 7 0)
+  
+  (send b-pawn1 move 0 1)
+  (send b-pawn2 move 1 1)
+  (send b-pawn3 move 2 1)
+  (send b-pawn4 move 3 1)
+  (send b-pawn5 move 4 1)
+  (send b-pawn6 move 5 1)
+  (send b-pawn7 move 6 1)
+  (send b-pawn8 move 7 1)
+
+  (send w-rook1 move 0 7)
+  (send w-knight1 move 1 7)
+  (send w-bishop1 move 2 7)
+  (send w-queen move 3 7)
+  (send w-king move 4 7)
+  (send w-bishop2 move 5 7)
+  (send w-knight2 move 6 7)
+  (send w-rook2 move 7 7)
+  
+  (send w-pawn1 move 0 6)
+  (send w-pawn2 move 1 6)
+  (send w-pawn3 move 2 6)
+  (send w-pawn4 move 3 6)
+  (send w-pawn5 move 4 6)
+  (send w-pawn6 move 5 6)
+  (send w-pawn7 move 6 6)
+  (send w-pawn8 move 7 6))
+
+(init-figures)

@@ -1,0 +1,57 @@
+#lang racket
+;(require "project.rkt")
+(require "moves-helper.rkt")
+;(require "moveAndFind.rkt")
+(provide (all-defined-out))
+;# TODO Make a function that checks for castling. INPUT:- board. OUTPUT:- #t or #f.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;# TODO: checks whether the King is in check or not INPUT:- board. Output #t or #f.
+
+
+
+
+
+
+;# TODO: Check whether a piece e=will get killed if it moved to a place? INPUT:- board place(s) OUTPUT #t or #f.
+;;;However this will a part of the algorithm and will be taken care of on its own!!!!!!!!!!!!!!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;

@@ -1,0 +1,40 @@
+#lang racket
+(define val-table (make-hash))
+
+(hash-set! val-table 'pawn 1)
+(hash-set! val-table 'knight 3)
+(hash-set! val-table 'bishop 3)
+(hash-set! val-table 'rook 5)
+(hash-set! val-table 'queen 9)
+
+;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+;--------------------___________FOR LOOP DEFINED___________------------------
+(define-syntax for
+  (syntax-rules (:)
+    [(for init : bool : termin : statements ... )
+     (begin init
+            (define (iter)
+              (cond [bool (begin statements ...
+                                 termin
+                                 (iter))]))
+            (iter))]))
+
+
+;    Terminal node: Absolute value (list 1 -1 0) (list win lose draw).
+
+; Negated func ( = (max 2 3) (- 0 (min -2 -3)))
+
+#|  (define (negaMax depth) ;evaluate yet to be decided IDK 
+  (cond [(= depth 0) (evaluate)]                     ;IDK what all-moves is!!!!!!!!!!!!!!!!!
+        [else (let [( max  -10000000)
+                    (score 0)]
+                (for all-moves (IDK))[
+                                      (set! score (- 0 (negaMax (- depth 1))))
+                                      (cond [(> score max) (set! max score)])
+                                      ])])
+  max)|#
+
+
+#| heurastic value = 9*QUEEN 2*ROOK 2*BISHOP 2*KNIGHT ;;;;; IT is between +-30 pawn units |#
+
+
